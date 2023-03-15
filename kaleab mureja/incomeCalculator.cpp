@@ -19,13 +19,13 @@ int main(){
     totalIncome=grossSalary+overTimePayment;
     if (totalIncome>=3500){
         incometax=totalIncome/100*30;}
-    else if (totalIncome<3500 && totalIncome>=2000){
+    else if (totalIncome>=2000){
         incometax=totalIncome/100*25;}
-    else if (totalIncome<2000 && totalIncome>=1200){
+    else if (totalIncome>=1200){
         incometax=totalIncome/100*20;}
-    else if (totalIncome<1200 && totalIncome>=600){
+    else if ( totalIncome>=600){
         incometax=totalIncome/100*15;}
-    else if (totalIncome<600 && totalIncome>=200){
+    else if ( totalIncome>=200){
         incometax=totalIncome/100*10;}
     else if (totalIncome<200){
         incometax=0;}

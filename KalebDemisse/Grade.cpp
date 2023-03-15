@@ -9,7 +9,7 @@ int main(){
     cin >> test;
         for (int i=1;test > 15 || test < 0;i++) {
             if (i==5){
-                cout << "YOu have entered a wrong value five times." << endl;
+                cout << "You have entered a wrong value five times." << endl;
                 return 0;
             }
             cout << "Please enter a valid test value: ";
@@ -31,7 +31,7 @@ int main(){
     cin >> project;
         for (int i=1; project > 20 || project < 0;i++) {
             if (i==5){
-                cout << "YOu have entered a wrong value five times." << endl;
+                cout << "You have entered a wrong value five times." << endl;
                 return 0;
             }
             cout << "Please enter a valid project value: ";
@@ -42,7 +42,7 @@ int main(){
     cin >> assignment;
         for(int i=1; assignment > 10 || assignment < 0;i++) {
             if (i==5){
-                cout << "YOu have entered a wrong value five times." << endl;
+                cout << "You have entered a wrong value five times." << endl;
                 return 0;
             }
             cout << "Please enter a valid assignment value: ";
@@ -53,7 +53,7 @@ int main(){
     cin >> finalExam;
         for (int i=1;finalExam > 50 || finalExam < 0;i++) {
             if (i==5){
-                cout << "YOu have entered a wrong value five times." << endl;
+                cout << "You have entered a wrong value five times." << endl;
                 return 0;
             }
             cout << "Please enter a valid final exam value: ";
