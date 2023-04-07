@@ -83,26 +83,22 @@ int main()
     cin >> rows;
     cout << "Enter: 1 for pyramid\t 2 for inverted pyramid\t 3 for right pyramid\t 4 for hollow pyramid ";
     cin >> choise;
-    if (choise == 1)
-    {
-        pyramid(rows);
+    switch(choise){
+        case 1:
+            pyramid(rows);
+            break;
+        case 2:
+            inverted_pyramid(rows);
+            break;
+        case 3:
+            right_pyramid(rows);
+            break;
+        case 4:
+            hollow_pyramid(rows);
+            break;
+        default:
+            cout << "You entered invalid number!";
     }
-    else if (choise == 2)
-    {
-        inverted_pyramid(rows);
-    }
-    else if (choise == 3)
-    {
-        right_pyramid(rows);
-    }
-    else if (choise == 4)
-    {
-        hollow_pyramid(rows);
-    }
-    else
-    {
-        cout << "You entered invalid number!";
-    }
-
     return 0;
 }
+            
