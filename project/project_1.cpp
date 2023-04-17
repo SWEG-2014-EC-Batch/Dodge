@@ -26,5 +26,14 @@ int main() {
     day += (date % 10) * pow(10, i);
     date /= 10;
   }
+   if (date > 0) {
+    cout << "\tYou entered an invalid date!" << endl;
+    return -1;
+  }
+
+  if (month < 1 || month > 12) {
+    cout << "\tInvalid month: " << month << endl;
+    return -1;
+  }
 return 0;
 }
