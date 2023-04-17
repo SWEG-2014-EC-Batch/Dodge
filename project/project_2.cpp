@@ -24,5 +24,17 @@ int main()
         
         cout << endl;
     }
+         else{
+                if(j<= 18-i){
+                    cout << 18-i-j <<" ";
+                }
+                else if ( j>=i){
+                    cout << j-i << " ";
+                }
+                else{
+                cout << "  ";
+                }
+            }
+        }
     return 0;
 }
