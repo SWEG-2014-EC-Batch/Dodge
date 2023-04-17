@@ -35,5 +35,12 @@ int main() {
     cout << "\tInvalid month: " << month << endl;
     return -1;
   }
+  // check if year is a leap year
+  if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+    // special case for february in leap years
+    if (day < 1 || month == 2 && day > 29) {
+      cout << "\tInvalid day of month " << day << endl;
+      return -1;
+    }
 return 0;
 }
