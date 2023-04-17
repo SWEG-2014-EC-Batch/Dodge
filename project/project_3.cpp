@@ -48,6 +48,28 @@ int main() {
     cout << "Low: " << weather[month - 1][day - 1][0]
          << ", High: " << weather[month - 1][day - 1][1] << endl;
     break;
+  } 
+  case 2: {
+  month2:
+    cout << "Please enter the month(1 - 12): ";
+    cin >> month;
+    if (month < 1 || month > 12) {
+      cout << "You entered an invalid month" << endl;
+      goto month2;
+    }
+    int low = INT_MAX, high = INT_MIN, avg;
+    for (int j = 0; j < 31; j++) {
+      if (weather[month - 1][j][0] < low) {
+        low = weather[month - 1][j][0];
+      }
+      if (weather[month - 1][j][1] > high) {
+        high = weather[month - 1][j][1];
+      }
+    }
+    avg = (low + high) / 2;
+    cout << "Low: " << low << ", High: " << high << ", Average: " << avg
+         << endl;
+    break;
   }
 
   return 0;
