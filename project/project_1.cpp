@@ -42,5 +42,17 @@ int main() {
       cout << "\tInvalid day of month " << day << endl;
       return -1;
     }
+     if (month != 2 && day > dayMonth[month - 1]) {
+      cout << "\tInvalid day of month " << day << endl;
+      return -1;
+    }
+
+    cout << '\t' << day << "/" << month << "/" << year
+         << " is a valid date and also a Leap Year" << endl;
+    cout << "Here is below the next twenty Leap years are:\n\t";
+    for (int i = 0; i < 19; i++) {
+      year += 4;
+      cout << year << ",";
+    }
 return 0;
 }
