@@ -88,5 +88,16 @@ int main() {
          << high << endl;
     break;
   }
+     case 4: {
+    int lowestDay, lowestMonth, low = INT_MAX;
+    for (int i = 0; i < 12; i++) {
+      for (int j = 0; j < 31; j++) {
+        if (weather[i][j][0] < low) {
+          low = weather[i][j][0];
+          lowestDay = j;
+          lowestMonth = i;
+        }
+      }
+    }
   return 0;
 }
