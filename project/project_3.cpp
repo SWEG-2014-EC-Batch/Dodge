@@ -71,6 +71,22 @@ int main() {
          << endl;
     break;
   }
-
+  
+  case 3: {
+    int highestDay, highestMonth, high = INT_MIN;
+    for (int i = 0; i < 12; i++) {
+      for (int j = 0; j < 31; j++) {
+        if (weather[i][j][1] > high) {
+          high = weather[i][j][1];
+          highestDay = j;
+          highestMonth = i;
+        }
+      }
+    }
+    cout << "The day with the highest temperature is, Day: " << highestDay + 1
+         << ", Month: " << highestMonth + 1 << ". It had a high temperature of "
+         << high << endl;
+    break;
+  }
   return 0;
 }
