@@ -20,7 +20,6 @@ int main()
                 cout << "  ";
                 }
             }
-        
         else{
                 if(j<= 18-i){
                     cout << 18-i-j <<" ";
@@ -34,7 +33,6 @@ int main()
             }
         }
         cout << endl;
-    }
-         
+    }    
     return 0;
 }
