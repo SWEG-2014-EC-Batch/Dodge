@@ -99,10 +99,7 @@ int main() {
         }
       }
     }
-       
-  return 0;
-}
-cout << "The day with the lowest temperature is, Day: " << lowestDay + 1
+    cout << "The day with the lowest temperature is, Day: " << lowestDay + 1
          << ", Month: " << lowestMonth + 1 << ". It had a low temperature of "
          << low << endl;
     break;
@@ -122,4 +119,6 @@ cout << "The day with the lowest temperature is, Day: " << lowestDay + 1
   default:
     cout << "You chose an invalid option! Exiting the program" << endl;
     return -1;
+  }
+  return 0;
   }
