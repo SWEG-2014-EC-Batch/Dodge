@@ -11,16 +11,14 @@ int main()
                 if(j<=i){
                     cout << i-j <<" ";
                 }
-        }
-        else if(j>=18-i){
+                else if(j>=18-i){
                     cout << i+j-18 << " ";
                 }
-                else
-                {
+                else{
                 cout << "  ";
                 }
             }
-        else{
+            else{
                 if(j<= 18-i){
                     cout << 18-i-j <<" ";
                 }
