@@ -52,7 +52,7 @@ int main() {
     cout << "Here is below the next twenty Leap years are:\n\t";
     for (int i = 0; i < 19; i++) {
       year += 4;
-      cout << year << ",";
+      cout << year + 4 << ",";
     }
     cout << year << endl;
   } else {
