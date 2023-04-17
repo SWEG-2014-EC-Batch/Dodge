@@ -15,5 +15,16 @@ int main() {
     date /= 10;
   }
 
-  return 0;
+    // extract out the month
+  for (int i = 0; i < 2; i++) {
+    month += (date % 10) * pow(10, i);
+    date /= 10;
+  }
+
+  // extract out the day
+  for (int i = 0; i < 2; i++) {
+    day += (date % 10) * pow(10, i);
+    date /= 10;
+  }
+return 0;
 }
