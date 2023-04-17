@@ -12,7 +12,14 @@ int main()
                     cout << i-j <<" ";
                 }
         }
-        cout << endl;
-    }
+        else if(j>=18-i){
+                    cout << i+j-18 << " ";
+                }
+                else
+                {
+                cout << "  ";
+                }
+            }
+        
     return 0;
 }
