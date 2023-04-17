@@ -102,3 +102,24 @@ int main() {
        
   return 0;
 }
+cout << "The day with the lowest temperature is, Day: " << lowestDay + 1
+         << ", Month: " << lowestMonth + 1 << ". It had a low temperature of "
+         << low << endl;
+    break;
+  }
+  case 5:
+    cout << left << setw(10) << "Month" << left << setw(5)
+         << "Average Temperature" << left << endl;
+    for (int i = 0; i < 12; i++) {
+      int avg = 0;
+      for (int j = 0; j < 31; j++) {
+        avg += weather[i][j][2];
+      }
+      avg /= 31;
+      cout << left << setw(10) << i + 1 << left << setw(5) << avg << endl;
+    }
+    break;
+  default:
+    cout << "You chose an invalid option! Exiting the program" << endl;
+    return -1;
+  }
