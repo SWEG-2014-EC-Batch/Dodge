@@ -7,6 +7,10 @@ int main()
     {
         for (int j = 0; j < 19; j++)
         {
+            if(i<10){
+                if(j<=i){
+                    cout << i-j <<" ";
+                }
         }
         cout << endl;
     }
