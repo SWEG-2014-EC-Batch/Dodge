@@ -54,5 +54,14 @@ int main() {
       year += 4;
       cout << year << ",";
     }
+    cout << year << endl;
+  } else {
+    if (day > dayMonth[month - 1]) {
+      cout << "\tInvalid day of month " << day << endl;
+    }
+    cout << '\t' << day << "/" << month << "/" << year
+         << " is a valid date but not a Leap Year" << endl;
+  }
+
 return 0;
 }
