@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-  int date, day, month, year;
+  int date = 0, day = 0, month = 0, year = 0;
   int dayMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   cout << "Please enter a date (dd mm yyyy): ";
@@ -15,7 +15,7 @@ int main() {
     date /= 10;
   }
 
-    // extract out the month
+  // extract out the month
   for (int i = 0; i < 2; i++) {
     month += (date % 10) * pow(10, i);
     date /= 10;
@@ -26,7 +26,7 @@ int main() {
     day += (date % 10) * pow(10, i);
     date /= 10;
   }
-   if (date > 0) {
+  if (date > 0) {
     cout << "\tYou entered an invalid date!" << endl;
     return -1;
   }
@@ -42,7 +42,7 @@ int main() {
       cout << "\tInvalid day of month " << day << endl;
       return -1;
     }
-     if (month != 2 && day > dayMonth[month - 1]) {
+    if (month != 2 && day > dayMonth[month - 1]) {
       cout << "\tInvalid day of month " << day << endl;
       return -1;
     }
@@ -63,5 +63,5 @@ int main() {
          << " is a valid date but not a Leap Year" << endl;
   }
 
-return 0;
+  return 0;
 }
