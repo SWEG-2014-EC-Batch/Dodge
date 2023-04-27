@@ -3,24 +3,30 @@ using namespace std;
 
 int main()
 {
-    for (int i = 0; i < 19; i++)
+    int n;
+    cout << "Enter a postive integer: ";
+    cin >> n;
+    if (n<1){
+         return 0;
+    }
+    for (int i = 0; i <= n*2; i++)
     {
-        for (int j = 0; j < 19; j++)
+        for (int j = 0; j <= n*2; j++)
         {
-            if(i<10){
+            if(i<=n){
                 if(j<=i){
                     cout << i-j <<" ";
                 }
-                else if(j>=18-i){
-                    cout << i+j-18 << " ";
+                else if(j>=n*2 -i){
+                    cout << i+j-n*2 << " ";
                 }
                 else{
                 cout << "  ";
                 }
             }
             else{
-                if(j<= 18-i){
-                    cout << 18-i-j <<" ";
+                if(j<= n*2 -i){
+                    cout << n*2 -i-j <<" ";
                 }
                 else if ( j>=i){
                     cout << j-i << " ";
