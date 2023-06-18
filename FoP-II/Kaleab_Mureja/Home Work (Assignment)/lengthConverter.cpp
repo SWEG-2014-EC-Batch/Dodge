@@ -17,6 +17,24 @@ double centimetersToInches(double centimeters) {
     return centimeters / 2.54;
 }
 
+void convertLengths();
+
+int main() {
+    char repeat;
+
+    do {
+        convertLengths();
+
+        cout << "Do you want to convert another length? (y/n): ";
+        cin >> repeat;
+        cout << endl;
+    } while (repeat == 'y' || repeat == 'Y');
+
+    cout << "Program ended. Goodbye!" << endl;
+
+    return 0;
+}
+
 void convertLengths() {
     int choice;
     double length;
@@ -57,20 +75,4 @@ void convertLengths() {
         cout << "Invalid choice. Please try again." << endl;
         return;
     }
-}
-
-int main() {
-    char repeat;
-
-    do {
-        convertLengths();
-
-        cout << "Do you want to convert another length? (y/n): ";
-        cin >> repeat;
-        cout << endl;
-    } while (repeat == 'y' || repeat == 'Y');
-
-    cout << "Program ended. Goodbye!" << endl;
-
-    return 0;
 }

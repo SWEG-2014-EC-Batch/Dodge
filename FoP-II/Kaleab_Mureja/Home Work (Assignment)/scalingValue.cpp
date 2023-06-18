@@ -1,18 +1,8 @@
 #include <iostream>
 #include <cassert>
+using namespace std;
 
-void scale(double scaleFactor, double& value1, double& value2) {
-    assert(scaleFactor != 0); // Precondition: Scale factor should not be zero
-
-    std::cout << "Before scaling: ";
-    std::cout << "Value 1 = " << value1 << ", Value 2 = " << value2 << std::endl;
-
-    value1 *= scaleFactor;
-    value2 *= scaleFactor;
-
-    std::cout << "After scaling: ";
-    std::cout << "Value 1 = " << value1 << ", Value 2 = " << value2 << std::endl;
-}
+void scale(double scaleFactor, double& value1, double& value2); 
 
 int main() {
     double value1 = 10.5;
@@ -22,4 +12,17 @@ int main() {
     scale(scaleFactor, value1, value2);
 
     return 0;
+}
+
+void scale(double scaleFactor, double& value1, double& value2) {
+    assert(scaleFactor != 0); // Precondition: Scale factor should not be zero
+
+    cout << "Before scaling: ";
+    cout << "Value 1 = " << value1 << ", Value 2 = " << value2 << endl;
+
+    value1 *= scaleFactor;
+    value2 *= scaleFactor;
+
+    cout << "After scaling: ";
+    cout << "Value 1 = " << value1 << ", Value 2 = " << value2 << endl;
 }

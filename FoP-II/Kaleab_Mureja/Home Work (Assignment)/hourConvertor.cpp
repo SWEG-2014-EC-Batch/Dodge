@@ -2,6 +2,35 @@
 using namespace std;
 
 
+void inputTime(int& hours, int& minutes);
+
+void convertTime(int hours, int minutes, int& convertedHours, char& amPm); 
+
+void outputTime(int hours, int minutes, char amPm); 
+
+
+int main() {
+    char repeat;
+
+    do {
+        int hours, minutes;
+        int convertedHours;
+        char amPm;
+
+        inputTime(hours, minutes);
+        convertTime(hours, minutes, convertedHours, amPm);
+        outputTime(convertedHours, minutes, amPm);
+
+        cout << "Do you want to convert another time? (y/n): ";
+        cin >> repeat;
+        cout << endl;
+    } while (repeat == 'y' || repeat == 'Y');
+
+    cout << "Program ended. Goodbye!" << endl;
+
+    return 0;
+}
+
 void inputTime(int& hours, int& minutes) {
     cout << "Enter time in 24-hour notation (hh:mm): ";
     cin >> hours >> minutes;
@@ -36,26 +65,4 @@ void outputTime(int hours, int minutes, char amPm) {
         cout << " PM";
 
     cout << endl;
-}
-
-int main() {
-    char repeat;
-
-    do {
-        int hours, minutes;
-        int convertedHours;
-        char amPm;
-
-        inputTime(hours, minutes);
-        convertTime(hours, minutes, convertedHours, amPm);
-        outputTime(convertedHours, minutes, amPm);
-
-        cout << "Do you want to convert another time? (y/n): ";
-        cin >> repeat;
-        cout << endl;
-    } while (repeat == 'y' || repeat == 'Y');
-
-    cout << "Program ended. Goodbye!" << endl;
-
-    return 0;
 }

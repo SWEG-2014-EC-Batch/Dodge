@@ -3,11 +3,7 @@ using namespace std;
 
 #include <iostream>
 
-void swapValues(int& a, int& b) {
-    int temp = a;
-    a = b;
-    b = temp;
-}
+void swapValues(int& a, int& b) ;
 
 void sortValues(int& a, int& b, int& c); 
 
@@ -33,4 +29,11 @@ void sortValues(int& a, int& b, int& c) {
     }
 
     cout << "After swapping: a = " << a << ", b = " << b << ", c = " << c << endl;
+}
+
+
+void swapValues(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
 }
