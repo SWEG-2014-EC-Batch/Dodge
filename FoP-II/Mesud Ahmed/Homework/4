@@ -1,1 +1,14 @@
+#include<iostream>
+using namespace std;
 
+double getproduct(int num1, double num2);
+int main()
+{
+    double p=getproduct(5, 6.5);
+    cout<<p;
+
+}
+double getproduct(int num1, double num2)
+{
+    return num1*num2;
+}
