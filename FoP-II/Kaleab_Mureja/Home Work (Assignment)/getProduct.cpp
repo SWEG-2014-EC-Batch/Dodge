@@ -1,7 +1,8 @@
 #include <iostream>
+#include "file.h"
+#include "headerFile.h"
 using namespace std;
 
-double getProduct(int num1, double num2);
 int main()
 {
   int firstNum;
@@ -12,9 +13,5 @@ int main()
   cin >> secondNum;
   double product = getProduct(firstNum, secondNum);
   cout << "Product: " << product << endl;
-}
-double getProduct(int num1, double num2)
-{
-  double result = num1 * num2;
-  return result;
+  display();
 }

@@ -1,0 +1,21 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+double add(double num1,double num2);
+int main()
+{
+    double a,b,answer;
+    cout<<" enter the  number to be cubed"<<endl;
+     cin>>a;
+    cout<<" enter the  number to be squared"<<endl;
+    cin>>b;
+    answer=add(a,b);
+    cout<<" the sum of the square of the first number and cube of the second number is "<<answer;
+
+
+}
+double add(double num1,double num2)
+{
+    return (pow(num1,3)+pow(num2,2));
+}

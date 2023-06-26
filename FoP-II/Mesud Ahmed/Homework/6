@@ -1,0 +1,16 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+double hypotenuse(double side1,double side2);
+int main()
+{
+    double a,b;
+    cout<<" enter the two sides of the triangle"<<endl;
+    cin>>a>>b;
+    cout<<" the length of the hypotenuse is "<<hypotenuse(a,b);
+}
+double hypotenuse(double side1,double side2)
+{
+    return sqrt(pow(side1,2)+pow(side2,2));
+}

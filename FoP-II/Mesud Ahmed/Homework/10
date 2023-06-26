@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+const double METERS_IN_FOOT = 0.3048;
+const int CENTIMETERS_IN_METER = 100;
+const int INCHES_IN_FOOT = 12;
+
+void input(int& feet, int& inches);
+void calculate(int feet, int inches, int& meters, int& centimeters);
+void output(int meters, int centimeters);
+
+int main()
+{
+    int feet, inches, meters, centimeters;
+    char repeat;
+    do
+    {
+        input(feet, inches);
+        calculate(feet, inches, meters, centimeters);
+        output(meters, centimeters);
+        cout << "Do you want to repeat the calculation with new values? (y/n): ";
+        cin >> repeat;
+    } while (repeat == 'y' || repeat == 'Y');
+    return 0;
+}
+
+void input(int& feet, int& inches)
+{
+    cout << "Enter the length in feet and inches: ";
+    cin >> feet >> inches;
+}
+
+void calculate(int feet, int inches, int& meters, int& centimeters)
+{
+    double totalMeters = (feet + static_cast<double>(inches) / INCHES_IN_FOOT) * METERS_IN_FOOT;
+    meters = static_cast<int>(totalMeters);
+    centimeters = static_cast<int>((totalMeters - meters) * CENTIMETERS_IN_METER);
+}
+
+void output(int meters, int centimeters)
+{
+    cout << "The equivalent length in meters and centimeters is: " << meters << "m " << centimeters << "cm" << endl;
+}
+
