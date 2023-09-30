@@ -135,3 +135,180 @@ void loadRoomInformation(vector<T> &rooms, const string &filename)
 
     inFile.close();
 }
+
+class Customer
+{
+private:
+    string name;
+    string address;
+    string phone;
+    int checkInDate;
+    int checkOutDate;
+    int roomNumber;
+
+public:
+    Customer(const string &n = "", const string &addr = "", const string &ph = "", int from = 0, int to = 0, int room = 0)
+        : name(n), address(addr), phone(ph), checkInDate(from), checkOutDate(to), roomNumber(room) {}
+
+    void displayInfo() const
+    {
+        cout << "-------------------------------\nCustomer Name: " << name << "\nAddress: " << address << "\nPhone: " << phone << "\n";
+        cout << "Check-in Date: " << checkInDate << "\nCheck-out Date: " << checkOutDate << "\n"
+             << "Room Number: " << roomNumber << "\n--------------------------------\n";
+    }
+
+    int getCheckInDate() const
+    {
+        return checkInDate;
+    }
+
+    int getRoomNumber() const
+    {
+        return roomNumber;
+    }
+
+    int getCheckOutDate() const
+    {
+        return checkOutDate;
+    }
+
+    string getName() const
+    {
+        return name;
+    }
+
+    string getAddress() const
+    {
+        return address;
+    }
+
+    string getPhone() const
+    {
+        return phone;
+    }
+};
+
+int calculateDays(int checkin, int checkout)
+{
+    int tempCheckin = checkin;
+    int tempCheckout = checkout;
+
+    int yearin = checkin % 10000;
+    int monthin = (checkin / 100) % 100;
+    int dayin = checkin / 10000;
+
+    int yearout = checkout % 10000;
+    int monthout = (checkout / 100) % 100;
+    int dayout = checkout / 10000;
+
+    int in = (yearin * 365) + (monthin * 30) + dayin;
+    int out = (yearout * 365) + (monthout * 30) + dayout;
+
+    return (out - in);
+}
+
+class HotelManagement
+{
+private:
+    vector<Room> rooms;
+    vector<Customer> customers;
+
+public:
+    void addRoom(const Room &room)
+    {
+        rooms.push_back(room);
+    }
+
+    void addCustomer(const Customer &customer)
+    {
+        customers.push_back(customer);
+    }
+
+    vector<Room> &getRooms()
+    {
+        return rooms;
+    }
+
+    vector<Customer> &getCustomers()
+    {
+        return customers;
+    }
+
+    void displayRooms() const
+    {
+        for (const auto &room : rooms)
+        {
+            displayInfo(room);
+        }
+    }
+
+    void displayCustomers() const
+    {
+        for (const auto &customer : customers)
+        {
+            displayInfo(customer);
+        }
+    }
+
+    bool checkRoomAvailability(int roomNumber) const
+    {
+        return checkAvailability(rooms.data(), rooms.size(), roomNumber);
+    }
+
+    void reserveRoom(int roomNumber, const Customer &customer)
+    {
+        for (auto &room : rooms)
+        {
+            if (room.getRoomNumber() == roomNumber)
+            {
+                if (room.isAvailable())
+                {
+                    room.checkIn(customer.getCheckInDate(), customer.getCheckOutDate());
+                    cout << "Room " << roomNumber << " has been reserved!" << endl;
+                    room.available = false;
+                    return;
+                }
+                else
+                {
+                    cout << "Room " << roomNumber << " is not available for reservation." << endl;
+                    return;
+                }
+            }
+        }
+        cout << "Room " << roomNumber << " not found." << endl;
+    }
+
+    void checkOut(int roomNumber, const Customer &customer)
+    {
+        for (auto &room : rooms)
+        {
+            if (room.getRoomNumber() == roomNumber)
+            {
+                if (room.isCheckedIn())
+                {
+                    int dayStayed = calculateDays(customer.getCheckInDate(), customer.getCheckOutDate());
+                    int RoomRent = DAILY_RENT * dayStayed;
+                    int tax = RoomRent * TAX_RATE;
+                    int serviceCharge = RoomRent * SERVICE_CHARGE_RATE;
+
+                    cout << "Customer checked out from Room " << roomNumber << "." << endl
+                         << "Room Rent: $" << DAILY_RENT << " per day" << endl
+                         << "Days Stayed: " << dayStayed << " days" << endl
+                         << "Total RoomRent: $" << RoomRent << endl
+                         << "Tax: $" << tax << endl
+                         << "Service Charge: $" << serviceCharge << endl;
+                    cout << "Total Amount Due: $" << RoomRent + tax + serviceCharge << endl;
+
+                    room.checkOut();
+                    return;
+                }
+                else
+                {
+                    cout << "No customer checked in to Room " << roomNumber << "." << endl;
+                    return;
+                }
+            }
+        }
+        cout << "Room " << roomNumber << " not found." << endl;
+    }
+};
