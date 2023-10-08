@@ -23,38 +23,47 @@ bool isFuture (const string& checkIn)
     return true;
 }
 
-int daysStayed (const string&  checkIn, const string& checkOut)
-{
-    tm checkIn1 = {}, checkOut1 = {};
-    strptime(checkIn.c_str(), "%Y-%m-%d", &checkIn1);
-    strptime(checkOut.c_str(), "%Y-%m-%d", &checkOut1);
-
-    double day1 = difftime(mktime(&checkOut1), mktime(&checkIn1));
-    int daystayed = (int)(day1) / 86400;
-    
-    return daystayed;
+int daysStayed(const std::string& checkIn, const std::string& checkOut) { 
+    std::tm start_tm = {}; 
+    std::tm end_tm = {}; 
+     
+    // Parse the date strings into std::tm structures 
+    std::istringstream(checkIn) >> std::get_time(&start_tm, "%Y-%m-%d"); 
+    std::istringstream(checkOut) >> std::get_time(&end_tm, "%Y-%m-%d"); 
+ 
+    // Convert the std::tm structures to time_t 
+    std::time_t start_time = std::mktime(&start_tm); 
+    std::time_t end_time = std::mktime(&end_tm); 
+ 
+    // Calculate the difference in days 
+    return static_cast<int>(std::difftime(end_time, start_time) / (60 * 60 * 24)); 
 }
 
-vector<string> generateDateRange(const string& startDate, const string& endDate) {
-    vector<string> dateList;
-
-    tm start_tm = {}, end_tm = {};
-    strptime(startDate.c_str(), "%Y-%m-%d", &start_tm);
-    strptime(endDate.c_str(), "%Y-%m-%d", &end_tm);
-
-    time_t start_time = mktime(&start_tm);
-    time_t end_time = mktime(&end_tm);
-
-    while (start_time <= end_time) {
-        tm* current_tm = localtime(&start_time);
-
-        char dateBuffer[11];
-        strftime(dateBuffer, sizeof(dateBuffer), "%Y-%m-%d", current_tm);
-
-        dateList.push_back(dateBuffer);
-
-        start_time += 86400; 
-    }
-
-    return dateList;
+std::vector<std::string> generateDateRange(const std::string& startDate, const std::string& endDate) { 
+    std::vector<std::string> dateRange; 
+ 
+    // Parse the start date string into a std::tm structure 
+    std::tm start_tm = {}; 
+    std::istringstream(startDate) >> std::get_time(&start_tm, "%Y-%m-%d"); 
+ 
+    // Parse the end date string into a std::tm structure 
+    std::tm end_tm = {}; 
+    std::istringstream(endDate) >> std::get_time(&end_tm, "%Y-%m-%d"); 
+ 
+    // Convert the std::tm structures to time_t 
+    std::time_t start_time = std::mktime(&start_tm); 
+    std::time_t end_time = std::mktime(&end_tm); 
+ 
+    // Calculate the number of seconds in a day 
+    const int day_seconds = 60 * 60 * 24; 
+ 
+    // Generate the date range 
+    for (std::time_t current_time = start_time; current_time <= end_time; current_time += day_seconds) { 
+        std::tm current_tm = *std::localtime(&current_time); 
+        char date_buffer[11]; // Buffer for date in "YYYY-MM-DD" format 
+        std::strftime(date_buffer, sizeof(date_buffer), "%Y-%m-%d", &current_tm); 
+        dateRange.push_back(date_buffer); 
+    } 
+ 
+    return dateRange; 
 }
