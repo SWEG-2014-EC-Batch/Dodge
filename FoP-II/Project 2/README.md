@@ -2,4 +2,4 @@
 
 To compile run:
 
-     g++ *.cpp -o hotelmanagment
+     g++ *.cpp -o hotelManagement
