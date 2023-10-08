@@ -2,20 +2,20 @@
 #define MAIN_H
 
 #include <iostream>
-#include <chrono>
 #include <ctime>
 #include <cstring>
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-#include <cstdlib>
 #include <fstream>
+#include <set>
+#include <map>
 
 using namespace std;
 
 class Room
 {
-    public:
+    private:
         int roomNo;
         int rType;
     
@@ -30,6 +30,16 @@ class Room
         {
             return rType;
         }
+        void printTitle() const
+        {
+            cout << left << setw(15) << "Room Number" << setw(15) << "Room Level" << endl;
+            cout << setfill('-') <<setw(30) << "-" << setfill(' ') <<endl;
+        }
+        void printRecord() const
+        {
+            cout << left << setw(15) << roomNo << setw(15) << rType << endl;
+        }
+
 
 };
 
@@ -42,11 +52,11 @@ struct RType
 
 class Reservation
 {
-    public:
+    private:
         int id;
         string name;
         int phoneNumber;
-        string kebeleId;
+        string customerId;
         int roomNo;
         string checkIn;
         string checkOut;
@@ -54,7 +64,7 @@ class Reservation
     
     public:
         Reservation(int Id, string& Name, int PhoneNumber, string& KebeleId,  int roomno, const string& chein, const string& cheout,const string& stat)
-            : id(Id), name(Name), phoneNumber(PhoneNumber), kebeleId(KebeleId), roomNo(roomno), checkIn(chein), checkOut(cheout), status(stat) {}
+            : id(Id), name(Name), phoneNumber(PhoneNumber), customerId(KebeleId), roomNo(roomno), checkIn(chein), checkOut(cheout), status(stat) {}
         int getId() const
         {
             return id;
@@ -67,9 +77,9 @@ class Reservation
         {
             return phoneNumber;
         }
-        string getKebeleId() const
+        string getCustomerId() const
         {
-            return kebeleId;
+            return customerId;
         }
         int getRoomNo() const
         {
@@ -87,6 +97,38 @@ class Reservation
         {
             return status;
         }
+        void setId(int newId) 
+        {
+            id = newId;
+        }
+        void setName(const string& newName) 
+        {
+            name = newName;
+        }
+        void setPhoneNumber(int newPhoneNumber) 
+        {
+            phoneNumber = newPhoneNumber;
+        }
+        void setCustomerId(const string& newCustomerId) 
+        {
+            customerId = newCustomerId;
+        }
+        void setRoomNo(int newRoomNo) 
+        {
+            roomNo = newRoomNo;
+        }
+        void setCheckIn(const string& newCheckIn)
+        {
+            checkIn = newCheckIn;
+        }
+        void setCheckOut(const string& newCheckOut) 
+        {
+            checkOut = newCheckOut;
+        }
+        void setStatus(const string& newStatus) 
+        {
+            status = newStatus;
+        }
         void printTitle() const
         {
             cout << left << setw(10) << "ID" << setw(15) << "Name" << setw(15) << "Phone Number" << setw(15) << "Kebele Id" << setw(15) << "Room Number" 
@@ -95,7 +137,7 @@ class Reservation
         }
         void printRecord() const
         {
-            cout << left << setw(10) << id << setw(15) << name << setw(15) << phoneNumber << setw(15) << kebeleId << setw(15) << roomNo
+            cout << left << setw(10) << id << setw(15) << name << setw(15) << phoneNumber << setw(15) << customerId << setw(15) << roomNo
                 << setw(15) << checkIn << setw(15) << checkOut << setw(15) << status << endl;
         }
 };
@@ -105,30 +147,46 @@ class Hotel
     private:
         vector<Reservation> reservations;
         vector<Room> rooms;
+        set<int> usedResId;
     public:
+        vector<RType> roomTypes = {
+            {1, 100.00, "Standard Room"},
+            {2, 150.00, "Deluxe Room"},
+            {3, 250.00, "Family Suite"}
+        };
+        
         //Hotel.cpp
         Hotel (vector<Reservation> Reservations = {}, vector<Room> Rooms = {}) : reservations(Reservations), rooms(Rooms) {}
         vector<Reservation> getReservations () const;
         vector<Room> getRooms () const;
-        void addReservation (char* today);
-        bool isValidReservationId(int reservationId) const;
+        int generateId();
+        void addReservation ();
         void deleteReservation();
         void deleteAllReservations();
-        void modifyReservation(Hotel rooms, char* today);
-        void printReservations() const;
-        void checkIn(const char* today);
+        void modifyReservation();
+        void checkIn();
         bool doesNotOverlap(int roomN, const string& checkIn, const string& checkOut, int id = 0) const;
         bool isValidRoom(int roomN) const;
         void addRoom(const Room& room);
         void saveData() const;
         void loadData();
         void addReservations(const Reservation& reservation);
+        set<int> busyRooms();
+        float dailyPrice (int roomNo);
+        void checkAvailableRoom();
+        void checkOut();
+        map <int, int> occupancy();
+        void printOccupancy();
+        map<string, double> dailyRevenues();
+        void printRevenue();
+
 };
 
 //date.cpp
-bool isFuture (const string& checkIn, const char* today);
-bool outPastIn(const string& checkIn, const string& checkOut);
+bool isFuture (const string& checkIn);
+bool isPastOf(const string& checkIn, const string& checkOut);
 int daysStayed (const string&  checkIn, const string& checkOut);
+vector<string> generateDateRange(const string& startDate, const string& endDate);
 
 //about.cpp
 void about();
@@ -154,18 +212,21 @@ void search(T& records, Z (U::*func)() const, const Z& value, vector<U> (T::*sec
         cout <<"No matching result found.\n" << endl;
     }
 }
-template <typename T>
-bool compare(const T& a, const T& b)
-{
-    return (a.getid() < b.getid());
-}
 
 template <typename T,typename U>
-void sort(T& records, vector<U> (T::*secfun)() const)
+void printSorted(T& records, vector<U> (T::*secfun)() const, bool asc = true)
 {
-    sort((records.*secfun)().begin(), (records.*secfun)().end(), compare);
+    vector<U> rec = (records.*secfun)();
+    if(asc)
+        sort(rec.begin(), rec.end(), [](const Reservation& a, const Reservation& b) {
+            return a.getId() < b.getId();
+        });
+    else
+        sort(rec.begin(), rec.end(), [](const Reservation& a, const Reservation& b) {
+            return a.getId() > b.getId();
+        });
     bool first = true;
-    for( const auto& record: (records.*secfun)())
+    for( const auto& record: rec)
     {
         if(first)
         {
