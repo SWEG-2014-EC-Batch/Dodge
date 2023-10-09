@@ -67,6 +67,10 @@ int main ()
                                 switch(choice3)
                                 {
                                     case 1:
+                                        cout << "\tTypes of Room available\n\n";
+                                        cout << "Standard $50 (Room 2,5,8,11,14,17,20)\n";
+                                        cout << "Double bed $75 (Room 3,6,9,12,15,18)\n";
+                                        cout << "Deluxe $100 (Room 1,4,7,10,13,16,19)\n";
                                         hotel.addReservation();
                                         break;
                                     case 2:

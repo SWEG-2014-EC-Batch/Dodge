@@ -150,9 +150,9 @@ class Hotel
         set<int> usedResId;
     public:
         vector<RType> roomTypes = {
-            {1, 100.00, "Standard Room"},
-            {2, 150.00, "Deluxe Room"},
-            {3, 250.00, "Family Suite"}
+            {1, 50.00, "Standard Room"},
+            {2, 75.00, "Double bed"},
+            {3, 100.00, "Deluxe Room"}
         };
         
         //Hotel.cpp

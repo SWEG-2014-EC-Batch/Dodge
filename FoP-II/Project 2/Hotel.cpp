@@ -287,7 +287,7 @@ void Hotel::saveData() const {
         }
         fout.close();
     } else {
-        cout << "Error: Unable to save data." << endl;
+        cout << "Unable to save data" << endl;
     }
 }
 
@@ -299,12 +299,18 @@ void Hotel::loadData()
         string line;
         while (getline(fin, line)) {
             stringstream ss(line);
-            int id, phone, roomNo;
-            string name, customerId, checkIn, checkOut, status;
+            string id, name, phone, customerId, roomNo, checkIn, checkOut, status;
 
-            if (getline(ss, name, ',') && ss >> id >> phone >> customerId >> roomNo  >> checkIn >> checkOut >> status) 
+            if (getline(ss, id, ',') && getline(ss, name, ',') && getline(ss, phone, ',') &&
+                getline(ss, customerId, ',') && getline(ss, roomNo, ',') && 
+                getline(ss, checkIn, ',') && getline(ss, checkOut, ',') && getline(ss, status, ',')) 
             {
-                addReservations({id, name, phone, customerId, roomNo, checkIn, checkOut, status});
+
+                int intId = stoi(id);
+                int intPhone = stoi(phone);
+                int intRoomNo = stoi(roomNo);
+
+                addReservations({intId, name, intPhone, customerId, intRoomNo, checkIn, checkOut, status});
             } 
             else 
             {
