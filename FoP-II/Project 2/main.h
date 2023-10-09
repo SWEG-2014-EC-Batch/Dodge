@@ -171,13 +171,13 @@ class Hotel
         void saveData() const;
         void loadData();
         void addReservations(const Reservation& reservation);
-        set<int> busyRooms();
+        set<int> busyRooms(const string& checkin, const string& checkout);
         float dailyPrice (int roomNo);
         void checkAvailableRoom();
         void checkOut();
-        map <int, int> occupancy();
+        map <int, int> occupancy(const string& start, const string& end);
         void printOccupancy();
-        map<string, double> dailyRevenues();
+        map<string, double> dailyRevenues(const string& start, const string& end);
         void printRevenue();
 
 };
@@ -187,6 +187,7 @@ bool isFuture (const string& checkIn);
 bool isPastOf(const string& checkIn, const string& checkOut);
 int daysStayed (const string&  checkIn, const string& checkOut);
 vector<string> generateDateRange(const string& startDate, const string& endDate);
+bool isValidDate(const string& date);
 
 //about.cpp
 void about();

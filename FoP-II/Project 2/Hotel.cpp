@@ -27,7 +27,8 @@ void Hotel::addReservation ()
     string checkin, checkout, name, customerId;
     int choice;
     cout << "Enter Your Name: ";
-    cin >> name;
+    cin.ignore();
+    getline(cin, name);
     cout << "Enter your Phone Number: ";
     cin >> phone;
     cout << "Enter your ID: ";
@@ -41,6 +42,11 @@ void Hotel::addReservation ()
     }
     cout << "Enter Check-in Date(YYYY-MM-DD): ";
     cin >> checkin;
+    if(!isValidDate(checkin))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
     if(!isFuture(checkin))
     {
         cout << "The Check-In date must not be in the past.\n\n Returning to Main Menu" << endl;
@@ -48,6 +54,11 @@ void Hotel::addReservation ()
     };
     cout << "Enter Check-out Date(YYYY-MM-DD): ";
     cin >> checkout;
+    if(!isValidDate(checkout))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
     if(!isPastOf(checkin, checkout))
     {
         cout << "The check out date must not be before or on the same day as the check-in date\n\n Returning to Main Menu" << endl;
@@ -93,7 +104,8 @@ void Hotel::modifyReservation()
             if (choice == 'y' || choice == 'Y')
             {
                 cout << "Enter new name: ";
-                cin >> name;
+                cin.ignore();
+                getline(cin, name);
             }
             cout << "Do you want to change the phone number? (y/n): ";
             cin >> choice;
@@ -128,6 +140,11 @@ void Hotel::modifyReservation()
             {
                 cout << "Enter new check-in date(YYYY-MM-DD): ";
                 cin >> checkIn;
+                if(!isValidDate(checkIn))
+                {
+                    cout << "Invalid Date" << endl;
+                    return;
+                }
                 if(!isFuture(checkIn))
                 {
                     cout << "Check-In Date must not be in the past. Reservation change cancelled. " << endl;
@@ -140,6 +157,11 @@ void Hotel::modifyReservation()
             {
                 cout << "Enter new check-out date(YYYY-MM-DD): ";
                 cin >> checkOut;
+                if(!isValidDate(checkOut))
+                {
+                    cout << "Invalid Date" << endl;
+                    return;
+                }
             }
             if(!isPastOf(checkIn, checkOut))
             {
@@ -200,13 +222,18 @@ void Hotel::checkIn()
     {
         if (reservation.getId() == reservationId) 
         {
-            reservation.setStatus("Checked In");
+            if(reservation.getstatus() != "Reserved")
+            {
+                cout << "Error: Reservation status was not \"Reserved\". " << endl;
+                return;
+            }
+            reservation.setStatus("Checked-In");
             int dayStayed = daysStayed(reservation.getCheckIn(), reservation.getCheckOut());
             int dailyRate = dailyPrice(reservation.getRoomNo());
 
-            cout << "Customer checked into Room " << reservation.getRoomNo() << "." << endl
+            cout << "Customer checked into Room " << reservation.getRoomNo() << "." << endl << endl
                  << "Room price: $" << dailyRate << " per day" << endl
-                 << "Days Stayed: " << dayStayed << " days" << endl
+                 << "Days Reserved: " << dayStayed << " days" << endl
                  << "Total Stay Price: $" << dayStayed * dailyRate  << endl;
             return;
         }
@@ -250,16 +277,15 @@ void Hotel::addReservations(const Reservation& reservation)
 }
 
 void Hotel::saveData() const {
-    ofstream outfile("hotel.txt");
-    if (outfile.is_open()) {
+    ofstream fout("hotel.txt", ios::out);
+    if (fout) {
         for (const Reservation& reservation : reservations) {
-            outfile << reservation.getId() << "\t" << reservation.getName() << "\t" << reservation.getPhone() << "\t"
-                    << reservation.getCustomerId() << "\t" << reservation.getRoomNo() << "\t"
-                    << reservation.getCheckIn() << "\t" << reservation.getCheckOut() << "\t"
+            fout << reservation.getId() << "," << reservation.getName() << "," << reservation.getPhone() << ","
+                    << reservation.getCustomerId() << "," << reservation.getRoomNo() << ","
+                    << reservation.getCheckIn() << "," << reservation.getCheckOut() << ","
                     << reservation.getstatus() << endl;
         }
-        outfile.close();
-        cout << "Data saved successfully." << endl;
+        fout.close();
     } else {
         cout << "Error: Unable to save data." << endl;
     }
@@ -267,8 +293,8 @@ void Hotel::saveData() const {
 
 void Hotel::loadData() 
 {
-    ifstream fin("hotel.txt");
-    if (fin.is_open()) {
+    ifstream fin("hotel.txt", ios::in);
+    if (fin) {
         reservations.clear(); 
         string line;
         while (getline(fin, line)) {
@@ -276,7 +302,7 @@ void Hotel::loadData()
             int id, phone, roomNo;
             string name, customerId, checkIn, checkOut, status;
 
-            if (ss >> id >> name >> phone >> customerId >> roomNo >> checkIn >> checkOut >> status) 
+            if (getline(ss, name, ',') && ss >> id >> phone >> customerId >> roomNo  >> checkIn >> checkOut >> status) 
             {
                 addReservations({id, name, phone, customerId, roomNo, checkIn, checkOut, status});
             } 
@@ -286,7 +312,6 @@ void Hotel::loadData()
             }
         }
         fin.close();
-        cout << "Data loaded successfully." << endl;
     }
     else 
     {
@@ -294,14 +319,10 @@ void Hotel::loadData()
     }
 }
 
-set<int> Hotel::busyRooms()
+set<int> Hotel::busyRooms(const string& checkin, const string& checkout)
 {
     set<int> roomNumbers;
-    string checkin, checkout;
-    cout << "Enter check-in date(YYYY-MM-DD): ";
-    cin >> checkin;
-    cout << "Enter check-out date(YYYY-MM-DD): ";
-    cin >> checkout;
+    
     for (const Reservation& reservation : reservations)
     {
         if(!(checkin > reservation.getCheckOut() || checkout < reservation.getCheckIn()))
@@ -314,7 +335,27 @@ set<int> Hotel::busyRooms()
 
 void Hotel::checkAvailableRoom()
 {
-    set<int> busyRoom = busyRooms();
+    string checkin, checkout;
+    cout << "Enter check-in date(YYYY-MM-DD): ";
+    cin >> checkin;
+    if(!isValidDate(checkin))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    cout << "Enter check-out date(YYYY-MM-DD): ";
+    cin >> checkout;
+    if(!isValidDate(checkout))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    if(checkin > checkout)
+    {
+        cout << "End date can't be before start date" << endl;
+        return;
+    }
+    set<int> busyRoom = busyRooms(checkin, checkout);
     bool first = true;
     for (const Room& room: rooms)
     {
@@ -357,30 +398,27 @@ void Hotel::checkOut()
     {
         if(reservationId == reservation.getId())
         {
-            if(reservation.getstatus() != "Checked In")
+            if(reservation.getstatus() != "Checked-In")
             {
-                cout << "Can't check out a reservation that is not checked in";
+                cout << "Can't check out a reservation that is not currently checked in" << endl;
+                return;
             }
+            reservation.setStatus("Checked-Out");
             cout << "\tCheck Out Successful\n Thank you for choosing to stay with us!" << endl;
+            return;
         }
     }
     cout << "There is no reservation with ID " << reservationId << "." << endl;
 }
 
-map<int, int> Hotel::occupancy ()
+map<int, int> Hotel::occupancy (const string& start, const string& end)
 {
+    
+    int occ;
     map<int, int> roomOcc;
+
     for(const Room& room: rooms)
         roomOcc[room.getRoomNo()] = 0;
-
-    string start, end;
-    int occ;
-
-    cout << "Enter start date(YYYY-MM-DD): ";
-    cin >> start;
-    cout << "Enter end date(YYYY-MM-DD): ";
-    cin >> end;
-
     for (const Reservation& reservation: reservations)
     {
         if(!(start >= reservation.getCheckOut() || end <= reservation.getCheckIn()))
@@ -388,26 +426,46 @@ map<int, int> Hotel::occupancy ()
             if(reservation.getCheckIn() > start)
             {
                 if(reservation.getCheckOut() < end)
-                    occ = daysStayed(reservation.getCheckIn(), reservation.getCheckOut());
+                    occ = daysStayed(reservation.getCheckIn(), reservation.getCheckOut()) + 1;
                 else
-                    occ = daysStayed(reservation.getCheckIn(), end);
+                    occ = daysStayed(reservation.getCheckIn(), end) + 1;
             } else {
                 if(reservation.getCheckOut() < end)
-                    occ = daysStayed(start, reservation.getCheckOut());
+                    occ = daysStayed(start, reservation.getCheckOut()) + 1;
                 else
-                    occ = daysStayed(start, end);
+                    occ = daysStayed(start, end) + 1;
             }
 
             roomOcc[reservation.getRoomNo()] += occ;
-            roomOcc[0] = daysStayed(start, end);
         }
     }
+    roomOcc[0] = daysStayed(start, end) + 1;
     return roomOcc;
 }
 
 void Hotel::printOccupancy()
 {
-    map<int,int> print = occupancy();
+    string start, end;
+    cout << "Enter start date(YYYY-MM-DD): ";
+    cin >> start;
+    if(!isValidDate(start))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    cout << "Enter end date(YYYY-MM-DD): ";
+    cin >> end;
+    if(!isValidDate(end))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    if(start > end)
+    {
+        cout << "End date can't be before start date" << endl;
+        return;
+    }
+    map<int,int> print = occupancy(start, end);
     int total = 0;
 
     cout << left << setw(10) << "Room" << setw(10) << "Days" << setw(20) << "Occupancy Rate(%)" << endl;
@@ -420,7 +478,7 @@ void Hotel::printOccupancy()
     {
         int roomNumber = iter->first;
         int daysOccupied = iter->second;
-        double occupancyRate = (double)(daysOccupied) / print[0] * 100.0;
+        double occupancyRate = ((double)(daysOccupied) / print[0]) * 100.0;
 
         total += daysOccupied;
 
@@ -434,21 +492,17 @@ void Hotel::printOccupancy()
     cout << left << setw(10) << "TOTAL" << setw(10) << total << setw(20) << fixed << setprecision(2) <<avgOcc << endl;
 }
 
-map<string, double> Hotel::dailyRevenues()
+map<string, double> Hotel::dailyRevenues(const string& start, const string& end)
 {
-    string start, end;
+    
     map <string, double> dailyRevenue;
-    cout << "Enter start date(YYYY-MM-DD): ";
-    cin >> start;
-    cout << "Enter end date(YYYY-MM-DD): ";
-    cin >> end;
     vector<string> betweendays = generateDateRange(start, end);
     for(const string& day: betweendays)
         dailyRevenue[day] = 0.0;
 
     for (const Reservation& reservation: reservations)
     {
-        if(start <= reservation.getCheckIn() && end >= reservation.getCheckIn() && reservation.getstatus() == "Checked In")
+        if(start <= reservation.getCheckIn() && end >= reservation.getCheckIn() && reservation.getstatus() == "Checked-In")
         {
             double reservationRevenue = daysStayed(reservation.getCheckIn(), reservation.getCheckOut()) * dailyPrice(reservation.getRoomNo());
             dailyRevenue[reservation.getCheckIn()] += reservationRevenue; 
@@ -459,7 +513,27 @@ map<string, double> Hotel::dailyRevenues()
 
 void Hotel::printRevenue()
 {
-    map<string,double> print = dailyRevenues();
+    string start, end;
+    cout << "Enter start date(YYYY-MM-DD): ";
+    cin >> start;
+    if(!isValidDate(start))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    cout << "Enter end date(YYYY-MM-DD): ";
+    cin >> end;
+    if(!isValidDate(end))
+    {
+        cout << "Invalid Date" << endl;
+        return;
+    }
+    if(start > end)
+    {
+        cout << "End date can't be before start date" << endl;
+        return;
+    }
+    map<string,double> print = dailyRevenues(start, end);
     double total = 0.0;
 
     cout << left << setw(15) << "Date" << setw(15) << "Revenue" << endl;

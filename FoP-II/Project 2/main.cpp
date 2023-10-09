@@ -29,6 +29,7 @@ int main ()
         cout << "2. Admin\n";
         cout << "3. About Hotel\n";
         cout << "0. Exit\n";
+        cout << "Enter your choice: ";
         cin >> choice;
         cout << endl;
         choice2 = 1;
@@ -166,11 +167,21 @@ int main ()
                                                 case 4:
                                                     cout << "Enter Check-in date(YYYY-MM-DD): ";
                                                     cin >> checkin;
+                                                    if(!isValidDate(checkin))
+                                                    {
+                                                        cout << "Invalid Date" << endl;
+                                                        break;
+                                                    }
                                                     search (hotel, &Reservation::getCheckIn, checkin, &Hotel::getReservations);
                                                     break;
                                                 case 5:
                                                     cout << "Enter Check-out date(YYYY-MM-DD): ";
                                                     cin >> checkout;
+                                                    if(!isValidDate(checkin))
+                                                    {
+                                                        cout << "Invalid Date" << endl;
+                                                        break;
+                                                    }
                                                     search (hotel, &Reservation::getCheckOut, checkout, &Hotel::getReservations);
                                                     break;
                                                 case 6:

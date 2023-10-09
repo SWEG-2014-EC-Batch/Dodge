@@ -67,3 +67,33 @@ std::vector<std::string> generateDateRange(const std::string& startDate, const s
  
     return dateRange; 
 }
+
+bool isLeapYear(int year) 
+{
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+bool isValidDate(const string& date) 
+{
+    if(date.length()!= 10)
+    {
+        return false;
+    }
+    istringstream iss(date);
+    int year, month, day;
+    char dash1, dash2;
+    if (iss >> year >> dash1 >> month >> dash2 >> day && dash1 == '-' && dash2 == '-') {
+        if (year >= 0 && month >= 1 && month <= 12 && day >= 1) {
+            int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            
+            if (isLeapYear(year)) {
+                daysInMonth[2] = 29; 
+            }
+            
+            if (day <= daysInMonth[month]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
