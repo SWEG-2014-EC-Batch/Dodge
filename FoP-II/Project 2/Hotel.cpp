@@ -311,6 +311,7 @@ void Hotel::loadData()
                 int intRoomNo = stoi(roomNo);
 
                 addReservations({intId, name, intPhone, customerId, intRoomNo, checkIn, checkOut, status});
+                usedResId.insert(intId);
             } 
             else 
             {
